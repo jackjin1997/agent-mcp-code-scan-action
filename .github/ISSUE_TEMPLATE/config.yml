@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Paid Agent/MCP audit request
+    url: https://github.com/jackjin1997/agent-audit-sprint/issues/new?template=code-scanning-audit.yml
+    about: Convert Code Scanning/SARIF findings into the fixed USD $1,000 human audit sprint.
+  - name: Browser scanner
+    url: https://jackjin1997.github.io/agent-audit-sprint/scan.html
+    about: Run the free no-execution scanner for a public GitHub repo URL or private local files.
+  - name: Terms and payment timing
+    url: https://jackjin1997.github.io/agent-audit-sprint/terms.html
+    about: Payment starts only after written scope acceptance.
