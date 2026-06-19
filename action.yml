@@ -1,0 +1,45 @@
+name: Agent MCP Code Scan
+description: Generate Agent/MCP heuristic reports or SARIF for GitHub Code Scanning.
+author: Zexu Jin
+branding:
+  icon: shield
+  color: green
+inputs:
+  path:
+    description: Repository path to scan.
+    required: false
+    default: "."
+  json:
+    description: Emit JSON instead of Markdown.
+    required: false
+    default: "false"
+  sarif:
+    description: Emit SARIF 2.1.0 for GitHub Code Scanning instead of Markdown.
+    required: false
+    default: "false"
+  output:
+    description: Optional file path to write the report.
+    required: false
+    default: ""
+runs:
+  using: composite
+  steps:
+    - name: Run Agent/MCP code scan
+      shell: bash
+      run: |
+        set -euo pipefail
+        args=("${{ inputs.path }}")
+        if [ "${{ inputs.json }}" = "true" ] && [ "${{ inputs.sarif }}" = "true" ]; then
+          echo "Choose either json=true or sarif=true, not both." >&2
+          exit 1
+        fi
+        if [ "${{ inputs.sarif }}" = "true" ]; then
+          args+=("--sarif")
+        elif [ "${{ inputs.json }}" = "true" ]; then
+          args+=("--json")
+        fi
+        if [ -n "${{ inputs.output }}" ]; then
+          node "$GITHUB_ACTION_PATH/tools/agent-mcp-audit.mjs" "${args[@]}" | tee "${{ inputs.output }}"
+        else
+          node "$GITHUB_ACTION_PATH/tools/agent-mcp-audit.mjs" "${args[@]}"
+        fi
