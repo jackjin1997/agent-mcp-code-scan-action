@@ -1,8 +1,20 @@
 # Agent MCP Code Scan Action
 
+[![Smoke Action v1](https://github.com/jackjin1997/agent-mcp-code-scan-action/actions/workflows/smoke-action-v1.yml/badge.svg)](https://github.com/jackjin1997/agent-mcp-code-scan-action/actions/workflows/smoke-action-v1.yml)
+[![Release](https://img.shields.io/github/v/release/jackjin1997/agent-mcp-code-scan-action)](https://github.com/jackjin1997/agent-mcp-code-scan-action/releases/tag/v1.0.0)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+
 GitHub Action for free Agent/MCP security triage. It scans repository text files for MCP servers, tool registration, remote transports, write actions, credential paths, auth gates, redaction, tests, and CI signals.
 
 Use it as a lightweight pre-launch check, or upload SARIF to GitHub Code Scanning and convert high-risk alerts into a fixed-price human audit.
+
+Install directly from GitHub Actions with:
+
+```yaml
+- uses: jackjin1997/agent-mcp-code-scan-action@v1
+```
+
+The stable `v1` tag is smoke-tested against both Markdown and SARIF output.
 
 ## Quick Start: GitHub Code Scanning
 
@@ -83,6 +95,20 @@ Set only one of `json` or `sarif`.
 
 The scanner is heuristic triage. It does not certify security.
 
+## Good Fit
+
+- MCP servers moving from local-only stdio to remote HTTP, SSE, StreamableHTTP, or hosted deployments
+- Agent tools that can write, delete, publish, send messages, execute shell commands, browse, query databases, or mutate cloud resources
+- Repos that want Agent/MCP findings in the GitHub Security tab before launch
+- Teams that need a quick pre-audit signal without granting private repo access to a vendor
+
+## Limits
+
+- This is not a penetration test or compliance certification.
+- It uses static text heuristics and can miss project-specific auth or runtime behavior.
+- It does not understand every framework-specific permission model.
+- Treat results as a launch-review queue, then verify high-impact items with human review and tests.
+
 ## Safety Model
 
 - No target dependencies are installed.
@@ -104,6 +130,8 @@ When Code Scanning findings show launch-blocking Agent/MCP risk, use the fixed U
 Do not send payment until scope is accepted in writing.
 
 The GitHub issue chooser in this repository links directly to the paid audit intake, browser scanner, and terms page.
+
+Upgrade when the SARIF results point to remote transport exposure, write-capable tools, credential paths, weak redaction evidence, missing tests around tool gates, or a launch decision that needs a ranked fix plan.
 
 ## Local CLI
 
