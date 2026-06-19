@@ -1,0 +1,62 @@
+name: Scanner bug or false positive
+description: Report an Agent/MCP scanner bug, false positive, false negative, or SARIF formatting issue
+title: "Scanner issue: <short summary>"
+labels: ["scanner-bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this for free scanner/action issues. Do not paste secrets, private source code, private keys, cookies, customer data, or production logs.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Issue type
+      options:
+        - Action usage bug
+        - SARIF formatting or upload problem
+        - False positive
+        - False negative
+        - Documentation gap
+    validations:
+      required: true
+  - type: textarea
+    id: workflow
+    attributes:
+      label: Workflow or command
+      description: Paste the relevant workflow step or local command.
+      render: yaml
+      placeholder: |
+        - uses: jackjin1997/agent-mcp-code-scan-action@v1
+          with:
+            path: "."
+            sarif: "true"
+            output: agent-mcp-audit.sarif
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected result
+      description: What should the scanner have reported or skipped?
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual result
+      description: Paste sanitized scanner output, SARIF snippets, or error logs.
+    validations:
+      required: true
+  - type: input
+    id: public_repo
+    attributes:
+      label: Public reproduction repo or file path
+      description: Optional. Use a public minimal reproduction when possible.
+      placeholder: https://github.com/org/repo or src/server.ts
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: Confirmation
+      options:
+        - label: I removed secrets, private keys, cookies, customer data, and proprietary source code from this issue.
+          required: true
