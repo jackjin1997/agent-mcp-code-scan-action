@@ -133,6 +133,8 @@ The GitHub issue chooser in this repository links directly to the paid audit int
 
 Upgrade when the SARIF results point to remote transport exposure, write-capable tools, credential paths, weak redaction evidence, missing tests around tool gates, or a launch decision that needs a ranked fix plan.
 
+Scanner bug and false-positive issues receive an automated support comment with sanitization rules, a shareable browser scanner link for public repos, and the paid audit path for launch-blocking Agent/MCP risk.
+
 ## Local CLI
 
 ```bash
