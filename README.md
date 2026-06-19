@@ -1,12 +1,12 @@
 # Agent MCP Code Scan Action
 
 [![Smoke Action v1](https://github.com/jackjin1997/agent-mcp-code-scan-action/actions/workflows/smoke-action-v1.yml/badge.svg)](https://github.com/jackjin1997/agent-mcp-code-scan-action/actions/workflows/smoke-action-v1.yml)
-[![Release](https://img.shields.io/github/v/release/jackjin1997/agent-mcp-code-scan-action)](https://github.com/jackjin1997/agent-mcp-code-scan-action/releases/tag/v1.0.0)
+[![Release](https://img.shields.io/github/v/release/jackjin1997/agent-mcp-code-scan-action)](https://github.com/jackjin1997/agent-mcp-code-scan-action/releases/latest)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-GitHub Action for free Agent/MCP security triage. It scans repository text files for MCP servers, tool registration, remote transports, write actions, credential paths, auth gates, redaction, tests, and CI signals.
+Free GitHub Action for MCP security scanning, AI agent security triage, and SARIF upload to GitHub Code Scanning. It scans repository text files for MCP servers, tool registration, remote transports, write actions, credential paths, auth gates, redaction, tests, and CI signals.
 
-Use it as a lightweight pre-launch check, or upload SARIF to GitHub Code Scanning and convert high-risk alerts into a fixed-price human audit.
+Use it as a lightweight pre-launch MCP security check, or upload SARIF to GitHub Code Scanning and convert high-risk alerts into a fixed-price human audit.
 
 Install directly from GitHub Actions with:
 
@@ -15,6 +15,12 @@ Install directly from GitHub Actions with:
 ```
 
 The stable `v1` tag is smoke-tested against both Markdown and SARIF output.
+
+Best first use cases:
+
+- Add Agent/MCP findings to the GitHub Security tab before a hosted MCP launch.
+- Check browser automation, cloud, database, workspace, trading, or shell-capable tools for review signals.
+- Turn high-risk SARIF findings into a scoped USD $1,000 human audit after written scope acceptance.
 
 ## Quick Start: GitHub Code Scanning
 
@@ -123,6 +129,8 @@ When Code Scanning findings show launch-blocking Agent/MCP risk, use the fixed U
 
 - Service page: https://jackjin1997.github.io/agent-audit-sprint/mcp-security-audit-service.html
 - Code Scanning workflow page: https://jackjin1997.github.io/agent-audit-sprint/mcp-code-scanning-github-action.html
+- Browser automation audit page: https://jackjin1997.github.io/agent-audit-sprint/browser-automation-mcp-security-audit.html
+- Browserbase MCP sample audit: https://jackjin1997.github.io/agent-audit-sprint/reports/browserbase-mcp-sample-audit.html
 - Dedicated SARIF/Code Scanning intake: https://github.com/jackjin1997/agent-audit-sprint/issues/new?template=code-scanning-audit.yml
 - Fixed quote: https://jackjin1997.github.io/agent-audit-sprint/quote.html
 - Terms: https://jackjin1997.github.io/agent-audit-sprint/terms.html

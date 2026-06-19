@@ -1,5 +1,5 @@
 name: Agent MCP Code Scan
-description: Generate Agent/MCP heuristic reports or SARIF for GitHub Code Scanning.
+description: MCP and AI agent security scan with SARIF for GitHub Code Scanning.
 author: Zexu Jin
 branding:
   icon: shield

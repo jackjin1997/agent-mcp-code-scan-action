@@ -6,6 +6,9 @@ contact_links:
   - name: Browser scanner
     url: https://jackjin1997.github.io/agent-audit-sprint/scan.html
     about: Run the free no-execution scanner for a public GitHub repo URL or private local files.
+  - name: Browser automation MCP audit sample
+    url: https://jackjin1997.github.io/agent-audit-sprint/reports/browserbase-mcp-sample-audit.html
+    about: Read the Browserbase MCP public-code sample audit before booking a browser automation review.
   - name: Terms and payment timing
     url: https://jackjin1997.github.io/agent-audit-sprint/terms.html
     about: Payment starts only after written scope acceptance.
