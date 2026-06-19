@@ -103,6 +103,8 @@ When Code Scanning findings show launch-blocking Agent/MCP risk, use the fixed U
 
 Do not send payment until scope is accepted in writing.
 
+The GitHub issue chooser in this repository links directly to the paid audit intake, browser scanner, and terms page.
+
 ## Local CLI
 
 ```bash
