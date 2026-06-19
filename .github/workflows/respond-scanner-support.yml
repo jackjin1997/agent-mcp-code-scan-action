@@ -1,0 +1,52 @@
+name: Scanner Support Response
+
+on:
+  issues:
+    types: [opened, edited, labeled]
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: Issue number to respond to
+        required: false
+        type: string
+
+jobs:
+  respond:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.issue.labels.*.name, 'scanner-bug')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    concurrency:
+      group: scanner-support-${{ github.event.issue.number || github.event.inputs.issue_number || github.run_id }}
+      cancel-in-progress: true
+    permissions:
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Resolve issue body for manual runs
+        if: github.event_name == 'workflow_dispatch'
+        id: issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issueNumber = Number(core.getInput('issue_number'));
+            if (!issueNumber) {
+              core.setFailed('workflow_dispatch requires issue_number.');
+              return;
+            }
+            const { data } = await github.rest.issues.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+            });
+            core.setOutput('number', String(issueNumber));
+            core.setOutput('body', data.body || '');
+      - name: Comment scanner support next steps
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          ISSUE_NUMBER: ${{ github.event.issue.number || steps.issue.outputs.number }}
+          ISSUE_BODY: ${{ github.event.issue.body || steps.issue.outputs.body }}
+        run: node scripts/comment-scanner-support.mjs
