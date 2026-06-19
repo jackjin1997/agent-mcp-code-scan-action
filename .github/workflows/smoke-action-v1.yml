@@ -1,0 +1,37 @@
+name: Smoke Action v1
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jackjin1997/agent-mcp-code-scan-action@v1
+        with:
+          path: "."
+          output: tmp-agent-mcp-audit.md
+      - uses: jackjin1997/agent-mcp-code-scan-action@v1
+        with:
+          path: "."
+          sarif: "true"
+          output: tmp-agent-mcp-audit.sarif
+      - name: Verify reports
+        run: |
+          set -euo pipefail
+          grep -q "Heuristic score" tmp-agent-mcp-audit.md
+          grep -q "Paid 48-hour review" tmp-agent-mcp-audit.md
+          grep -q 'USD $1,000' tmp-agent-mcp-audit.md
+          node -e "const fs=require('fs'); const r=JSON.parse(fs.readFileSync('tmp-agent-mcp-audit.sarif','utf8')); const run=r.runs&&r.runs[0]; if (r.version!=='2.1.0'||!run?.tool?.driver?.rules?.length||!Array.isArray(run.results)) process.exit(1); console.log('sarif-results=' + run.results.length);"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: action-v1-smoke-report
+          path: |
+            tmp-agent-mcp-audit.md
+            tmp-agent-mcp-audit.sarif
