@@ -1,0 +1,33 @@
+name: Agent/MCP Code Scanning
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "**/*.ts"
+      - "**/*.tsx"
+      - "**/*.js"
+      - "**/*.mjs"
+      - "**/*.py"
+      - "**/*.go"
+      - "**/*.rs"
+      - "**/*.md"
+      - "package.json"
+      - ".github/workflows/**"
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jackjin1997/agent-mcp-code-scan-action@v1
+        with:
+          path: "."
+          sarif: "true"
+          output: "agent-mcp-audit.sarif"
+      - uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: agent-mcp-audit.sarif
