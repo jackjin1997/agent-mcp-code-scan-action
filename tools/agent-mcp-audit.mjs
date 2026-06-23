@@ -50,6 +50,11 @@ const SIGNALS = [
     pattern: /\b(auth|authorize|permission|scope|role|login|session|cookie|csrf|jwt|token|requireAuth|requiresAuth)\b/i,
   },
   {
+    id: "agent_auth_focus",
+    label: "Agent auth or credential boundary",
+    pattern: /\b(site_login|site_logout|oauth|ciba|hitl|cookie|session|jwt|bearer|authorization|api[_-]?key|credential|token broker|token|refresh_token|access_token)\b/i,
+  },
+  {
     id: "redaction",
     label: "Redaction or secret handling",
     pattern: /\b(redact|redaction|censor|mask|sanitize|scrub|REDACTED|redacted)\b/i,
@@ -116,6 +121,30 @@ function score(findings) {
     if (finding.severity === "Low") value -= 4;
   }
   return Math.max(0, value);
+}
+
+const FULL_AUDIT_INTAKE_URL = "https://github.com/jackjin1997/agent-audit-sprint/issues/new?template=audit-request.yml";
+const AGENT_AUTH_INTAKE_URL = "https://github.com/jackjin1997/agent-audit-sprint/issues/new?template=agent-auth-review.yml";
+const AGENT_AUTH_REVIEW_URL = "https://jackjin1997.github.io/agent-audit-sprint/agent-auth-security-review.html";
+
+function hasAgentAuthFocus(report) {
+  return (report.signals?.agent_auth_focus?.count || 0) > 0;
+}
+
+function agentAuthFocusMarkdown(report) {
+  if (!hasAgentAuthFocus(report)) return [];
+  const signal = report.signals.agent_auth_focus;
+  const examples = signal.files.map((file) => `\`${file}\``).join(", ") || "scanner signal match";
+  return [
+    "Auth-heavy focused path: this scan saw token, cookie, session, OAuth, Bearer, API key, or credential-boundary signals.",
+    "",
+    "Best fit: USD $299 Agent Auth Focused Review for one token broker, cookie vault, site_login/site_logout flow, OAuth/HITL consent boundary, authenticated scraping path, or MCP gateway auth split.",
+    "",
+    `Focused intake: ${AGENT_AUTH_INTAKE_URL}`,
+    `Review page: ${AGENT_AUTH_REVIEW_URL}`,
+    `Evidence examples: ${examples}`,
+    "",
+  ];
 }
 
 function compactEvidence(files, root, max = 5) {
@@ -310,8 +339,9 @@ function renderMarkdown(report) {
   }
   lines.push("## Paid 48-hour review", "");
   lines.push("This heuristic output is the starting point for the fixed-price Agent/MCP Audit Sprint.");
+  lines.push(...agentAuthFocusMarkdown(report));
   lines.push("Price: USD $1,000 for one repo or product slice.");
-  lines.push("Request: https://github.com/jackjin1997/agent-audit-sprint/issues/new?template=audit-request.yml");
+  lines.push(`Full audit request: ${FULL_AUDIT_INTAKE_URL}`);
   lines.push("Terms: https://jackjin1997.github.io/agent-audit-sprint/terms.html", "");
   lines.push("Include this report, the repo/product URL, delivery visibility, payment network, and the highest-risk launch concern.");
   return lines.join("\n");
