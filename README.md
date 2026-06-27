@@ -4,9 +4,9 @@
 [![Release](https://img.shields.io/github/v/release/jackjin1997/agent-mcp-code-scan-action)](https://github.com/jackjin1997/agent-mcp-code-scan-action/releases/latest)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-Free GitHub Action for MCP security scanning, AI agent security triage, and SARIF upload to GitHub Code Scanning. It scans repository text files for MCP servers, tool registration, remote transports, write actions, credential paths, auth gates, redaction, tests, and CI signals.
+Free GitHub Action for MCP security scanning, AI agent security triage, and SARIF upload to GitHub Code Scanning. It scans repository text files for MCP servers, tool registration, remote transports, write actions, credential paths, auth gates, dynamic URL fetch/SSRF surfaces, redaction, tests, and CI signals.
 
-Use it as a lightweight pre-launch MCP security check, or upload SARIF to GitHub Code Scanning and convert high-risk alerts into a fixed-price human audit. Auth-heavy scanner output now highlights token, cookie, session, OAuth, Bearer, API key, and credential-boundary signals and routes those cases to a USD $299 Agent Auth focused review path.
+Use it as a lightweight pre-launch MCP security check, or upload SARIF to GitHub Code Scanning and convert high-risk alerts into a fixed-price human audit. Auth/SSRF-heavy scanner output now highlights token, cookie, session, OAuth, Bearer, API key, credential-boundary, dynamic URL fetch, pagination URL, callback URL, redirect URL, webhook, proxy fetch, and MCP SSRF signals and routes those cases to a USD $299 Agent Auth focused review path.
 
 Install directly from GitHub Actions with:
 
@@ -20,7 +20,7 @@ Best first use cases:
 
 - Add Agent/MCP findings to the GitHub Security tab before a hosted MCP launch.
 - Check browser automation, cloud, database, workspace, trading, or shell-capable tools for review signals.
-- Route token, cookie, session, OAuth, Bearer, API key, and credential-boundary findings to the USD $299 Agent Auth Focused Review intake.
+- Route token, cookie, session, OAuth, Bearer, API key, credential-boundary, dynamic URL fetch, and MCP SSRF findings to the USD $299 Agent Auth Focused Review intake.
 - Turn broader high-risk SARIF findings into a scoped USD $1,000 human audit after written scope acceptance.
 
 ## Quick Start: GitHub Code Scanning
@@ -96,6 +96,7 @@ Set only one of `json` or `sarif`.
 - Write, destructive, shell, browser, database, cloud, and external API paths
 - Credential and secret-bearing environment usage
 - Agent auth or credential-boundary signals: token, cookie, session, OAuth, Bearer, API key, and credential paths
+- Dynamic URL fetch/SSRF surfaces: `fetch_pagination_url`, pagination URL, callback URL, redirect URL, webhook, proxy fetch, and user-controlled fetch targets
 - Auth, permission, role, session, token, and CSRF gates
 - Redaction or secret-handling signals
 - Tool safety annotations
@@ -127,7 +128,7 @@ The scanner is heuristic triage. It does not certify security.
 
 ## Human Audit Handoff
 
-When Code Scanning findings show launch-blocking Agent/MCP risk, pick the smallest useful human review path. For auth-heavy findings around token brokers, cookie vaults, site_login/site_logout, OAuth/HITL consent, authenticated scraping, MCP gateway auth, or read/write token separation, use the USD $299 Agent Auth Focused Review. For broader repo/product-slice launch risk, use the fixed USD $1,000 human review path:
+When Code Scanning findings show launch-blocking Agent/MCP risk, pick the smallest useful human review path. For auth/SSRF-heavy findings around token brokers, cookie vaults, site_login/site_logout, OAuth/HITL consent, authenticated scraping, MCP gateway auth, read/write token separation, or dynamic URL fetches that can carry credentials, use the USD $299 Agent Auth Focused Review. For broader repo/product-slice launch risk, use the fixed USD $1,000 human review path:
 
 - Service page: https://jackjin1997.github.io/agent-audit-sprint/mcp-security-audit-service.html
 - Code Scanning workflow page: https://jackjin1997.github.io/agent-audit-sprint/mcp-code-scanning-github-action.html

@@ -12,7 +12,7 @@ MCP and AI agent security scan with SARIF for GitHub Code Scanning.
 
 ## Full Description
 
-Free GitHub Action for MCP security scanning, AI agent security triage, and SARIF upload to GitHub Code Scanning. The action scans repository text files for MCP servers, tool registration, remote transports, write actions, credential paths, auth gates, redaction, tests, and CI signals.
+Free GitHub Action for MCP security scanning, AI agent security triage, and SARIF upload to GitHub Code Scanning. The action scans repository text files for MCP servers, tool registration, remote transports, write actions, credential paths, auth gates, dynamic URL fetch/SSRF surfaces, redaction, tests, and CI signals.
 
 It can emit Markdown for a workflow artifact or SARIF 2.1.0 for upload to GitHub Code Scanning with `github/codeql-action/upload-sarif`.
 
@@ -29,7 +29,7 @@ Recommended use:
 - Upload SARIF findings to the GitHub Security tab.
 - Scan browser automation, cloud, database, workspace, trading, shell, and API-mutating tool surfaces.
 - Use results as a launch-review queue before hosted MCP rollout.
-- Route token, cookie, session, OAuth, Bearer, API key, and credential-boundary findings into the USD $299 Agent Auth Focused Review intake.
+- Route token, cookie, session, OAuth, Bearer, API key, credential-boundary, dynamic URL fetch, pagination/callback/redirect URL, webhook, proxy fetch, and MCP SSRF findings into the USD $299 Agent Auth Focused Review intake.
 - Convert broader high-risk SARIF findings into the fixed USD $1,000 human Agent/MCP Audit Sprint after written scope acceptance.
 
 ## Primary Workflow

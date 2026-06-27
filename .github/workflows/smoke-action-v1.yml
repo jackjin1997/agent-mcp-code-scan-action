@@ -27,8 +27,10 @@ jobs:
           set -euo pipefail
           grep -q "Heuristic score" tmp-agent-mcp-audit.md
           grep -q "Paid 48-hour review" tmp-agent-mcp-audit.md
+          grep -q "Dynamic URL fetch or SSRF surface" tmp-agent-mcp-audit.md
+          grep -q "MCP SSRF/dynamic fetch boundary" tmp-agent-mcp-audit.md
           grep -q 'USD $1,000' tmp-agent-mcp-audit.md
-          node -e "const fs=require('fs'); const r=JSON.parse(fs.readFileSync('tmp-agent-mcp-audit.sarif','utf8')); const run=r.runs&&r.runs[0]; if (r.version!=='2.1.0'||!run?.tool?.driver?.rules?.length||!Array.isArray(run.results)) process.exit(1); console.log('sarif-results=' + run.results.length);"
+          node -e "const fs=require('fs'); const r=JSON.parse(fs.readFileSync('tmp-agent-mcp-audit.sarif','utf8')); const run=r.runs&&r.runs[0]; const hasDynamicUrlRule=run?.tool?.driver?.rules?.some((rule)=>rule.name==='Dynamic URL fetch can become SSRF with credentials'||rule.name==='Dynamic URL fetch needs destination allowlist and redirect tests'); if (r.version!=='2.1.0'||!run?.tool?.driver?.rules?.length||!Array.isArray(run.results)||!hasDynamicUrlRule) process.exit(1); console.log('sarif-results=' + run.results.length);"
       - uses: actions/upload-artifact@v4
         with:
           name: action-v1-smoke-report
