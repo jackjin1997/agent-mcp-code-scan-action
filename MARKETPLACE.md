@@ -29,7 +29,7 @@ Recommended use:
 - Upload SARIF findings to the GitHub Security tab.
 - Scan browser automation, cloud, database, workspace, trading, shell, and API-mutating tool surfaces.
 - Use results as a launch-review queue before hosted MCP rollout.
-- Route token, cookie, session, OAuth, Bearer, API key, credential-boundary, dynamic URL fetch, pagination/callback/redirect URL, webhook, proxy fetch, and MCP SSRF findings into the USD $299 Agent Auth Focused Review intake.
+- Route token, cookie, session, OAuth, Bearer, API key, and credential-boundary findings into the USD $299 Agent Auth Focused Review intake; route dynamic URL fetch, pagination/callback/redirect URL, webhook, proxy fetch, and MCP SSRF findings into the USD $299 MCP SSRF Focused Review intake.
 - Convert broader high-risk SARIF findings into the fixed USD $1,000 human Agent/MCP Audit Sprint after written scope acceptance.
 
 ## Primary Workflow
@@ -51,6 +51,8 @@ Recommended use:
 - Workflow page: https://jackjin1997.github.io/agent-audit-sprint/mcp-code-scanning-github-action.html
 - Browser automation audit page: https://jackjin1997.github.io/agent-audit-sprint/browser-automation-mcp-security-audit.html
 - Browserbase MCP sample audit: https://jackjin1997.github.io/agent-audit-sprint/reports/browserbase-mcp-sample-audit.html
+- MCP SSRF review page: https://jackjin1997.github.io/agent-audit-sprint/mcp-ssrf-security-review.html
+- USD $299 MCP SSRF focused intake: https://github.com/jackjin1997/agent-audit-sprint/issues/new?template=mcp-ssrf-review.yml
 - Agent Auth review page: https://jackjin1997.github.io/agent-audit-sprint/agent-auth-security-review.html
 - USD $299 Agent Auth focused intake: https://github.com/jackjin1997/agent-audit-sprint/issues/new?template=agent-auth-review.yml
 - Paid SARIF/Code Scanning audit intake: https://github.com/jackjin1997/agent-audit-sprint/issues/new?template=code-scanning-audit.yml

@@ -6,7 +6,7 @@
 
 Free GitHub Action for MCP security scanning, AI agent security triage, and SARIF upload to GitHub Code Scanning. It scans repository text files for MCP servers, tool registration, remote transports, write actions, credential paths, auth gates, dynamic URL fetch/SSRF surfaces, redaction, tests, and CI signals.
 
-Use it as a lightweight pre-launch MCP security check, or upload SARIF to GitHub Code Scanning and convert high-risk alerts into a fixed-price human audit. Auth/SSRF-heavy scanner output now highlights token, cookie, session, OAuth, Bearer, API key, credential-boundary, dynamic URL fetch, pagination URL, callback URL, redirect URL, webhook, proxy fetch, and MCP SSRF signals and routes those cases to a USD $299 Agent Auth focused review path.
+Use it as a lightweight pre-launch MCP security check, or upload SARIF to GitHub Code Scanning and convert high-risk alerts into a fixed-price human audit. Auth-heavy scanner output routes token, cookie, session, OAuth, Bearer, API key, and credential-boundary signals to the USD $299 Agent Auth focused review. Dynamic URL fetch, pagination URL, callback URL, redirect URL, webhook, proxy fetch, and MCP SSRF signals route to the USD $299 MCP SSRF focused review path.
 
 Install directly from GitHub Actions with:
 
@@ -20,7 +20,7 @@ Best first use cases:
 
 - Add Agent/MCP findings to the GitHub Security tab before a hosted MCP launch.
 - Check browser automation, cloud, database, workspace, trading, or shell-capable tools for review signals.
-- Route token, cookie, session, OAuth, Bearer, API key, credential-boundary, dynamic URL fetch, and MCP SSRF findings to the USD $299 Agent Auth Focused Review intake.
+- Route token/cookie/session/OAuth findings to the USD $299 Agent Auth Focused Review intake, and dynamic URL fetch / MCP SSRF findings to the USD $299 MCP SSRF Focused Review intake.
 - Turn broader high-risk SARIF findings into a scoped USD $1,000 human audit after written scope acceptance.
 
 ## Quick Start: GitHub Code Scanning
@@ -128,12 +128,14 @@ The scanner is heuristic triage. It does not certify security.
 
 ## Human Audit Handoff
 
-When Code Scanning findings show launch-blocking Agent/MCP risk, pick the smallest useful human review path. For auth/SSRF-heavy findings around token brokers, cookie vaults, site_login/site_logout, OAuth/HITL consent, authenticated scraping, MCP gateway auth, read/write token separation, or dynamic URL fetches that can carry credentials, use the USD $299 Agent Auth Focused Review. For broader repo/product-slice launch risk, use the fixed USD $1,000 human review path:
+When Code Scanning findings show launch-blocking Agent/MCP risk, pick the smallest useful human review path. For dynamic URL fetch, pagination, callback, redirect, webhook, proxy, or SSRF-with-credentials findings, use the USD $299 MCP SSRF Focused Review. For token brokers, cookie vaults, site_login/site_logout, OAuth/HITL consent, authenticated scraping, MCP gateway auth, or read/write token separation, use the USD $299 Agent Auth Focused Review. For broader repo/product-slice launch risk, use the fixed USD $1,000 human review path:
 
 - Service page: https://jackjin1997.github.io/agent-audit-sprint/mcp-security-audit-service.html
 - Code Scanning workflow page: https://jackjin1997.github.io/agent-audit-sprint/mcp-code-scanning-github-action.html
 - Browser automation audit page: https://jackjin1997.github.io/agent-audit-sprint/browser-automation-mcp-security-audit.html
 - Browserbase MCP sample audit: https://jackjin1997.github.io/agent-audit-sprint/reports/browserbase-mcp-sample-audit.html
+- MCP SSRF review page: https://jackjin1997.github.io/agent-audit-sprint/mcp-ssrf-security-review.html
+- USD $299 MCP SSRF focused intake: https://github.com/jackjin1997/agent-audit-sprint/issues/new?template=mcp-ssrf-review.yml
 - Agent Auth review page: https://jackjin1997.github.io/agent-audit-sprint/agent-auth-security-review.html
 - USD $299 Agent Auth focused intake: https://github.com/jackjin1997/agent-audit-sprint/issues/new?template=agent-auth-review.yml
 - Dedicated SARIF/Code Scanning intake: https://github.com/jackjin1997/agent-audit-sprint/issues/new?template=code-scanning-audit.yml

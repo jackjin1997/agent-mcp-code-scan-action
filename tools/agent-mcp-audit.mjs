@@ -131,23 +131,52 @@ function score(findings) {
 const FULL_AUDIT_INTAKE_URL = "https://github.com/jackjin1997/agent-audit-sprint/issues/new?template=audit-request.yml";
 const AGENT_AUTH_INTAKE_URL = "https://github.com/jackjin1997/agent-audit-sprint/issues/new?template=agent-auth-review.yml";
 const AGENT_AUTH_REVIEW_URL = "https://jackjin1997.github.io/agent-audit-sprint/agent-auth-security-review.html";
+const MCP_SSRF_INTAKE_URL = "https://github.com/jackjin1997/agent-audit-sprint/issues/new?template=mcp-ssrf-review.yml";
+const MCP_SSRF_REVIEW_URL = "https://jackjin1997.github.io/agent-audit-sprint/mcp-ssrf-security-review.html";
 
 function uniqueFiles(...groups) {
   return Array.from(new Set(groups.flat().filter(Boolean)));
 }
 
-function hasAgentAuthFocus(report) {
-  return (report.signals?.agent_auth_focus?.count || 0) > 0 ||
-    (report.signals?.dynamic_url_fetch?.count || 0) > 0;
+function hasMcpSsrfFocus(report) {
+  return (report.signals?.dynamic_url_fetch?.count || 0) > 0;
 }
 
-function agentAuthFocusMarkdown(report) {
-  if (!hasAgentAuthFocus(report)) return [];
+function hasAgentAuthFocus(report) {
+  return (report.signals?.agent_auth_focus?.count || 0) > 0;
+}
+
+function hasFocusedReviewPath(report) {
+  return hasMcpSsrfFocus(report) || hasAgentAuthFocus(report);
+}
+
+function focusedReviewDetails(report) {
+  if (hasMcpSsrfFocus(report)) {
+    return {
+      name: "USD $299 MCP SSRF Focused Review",
+      intakeUrl: MCP_SSRF_INTAKE_URL,
+      reviewUrl: MCP_SSRF_REVIEW_URL,
+      scope: "one pagination URL, callback URL, redirect URL, webhook URL, proxy URL, user-provided URL fetch, or SSRF-with-credentials boundary",
+      summaryLabel: "MCP SSRF focused path",
+    };
+  }
+  return {
+    name: "USD $299 Agent Auth Focused Review",
+    intakeUrl: AGENT_AUTH_INTAKE_URL,
+    reviewUrl: AGENT_AUTH_REVIEW_URL,
+    scope: "one token broker, cookie vault, site_login/site_logout flow, OAuth/HITL consent boundary, authenticated scraping path, or MCP gateway auth split",
+    summaryLabel: "Agent Auth focused path",
+  };
+}
+
+function focusedReviewMarkdown(report) {
+  if (!hasFocusedReviewPath(report)) return [];
   const authSignal = report.signals?.agent_auth_focus || { files: [] };
   const dynamicUrlSignal = report.signals?.dynamic_url_fetch || { files: [] };
   const examples = uniqueFiles(authSignal.files, dynamicUrlSignal.files)
     .map((file) => `\`${file}\``)
     .join(", ") || "scanner signal match";
+  const details = focusedReviewDetails(report);
   const signalNotes = [];
   if (authSignal.files.length) {
     signalNotes.push("token, cookie, session, OAuth, Bearer, API key, or credential-boundary signals");
@@ -156,12 +185,15 @@ function agentAuthFocusMarkdown(report) {
     signalNotes.push("dynamic URL fetching, pagination URL, callback URL, redirect URL, webhook, or proxy-fetch signals");
   }
   return [
-    `Auth/SSRF focused path: this scan saw ${signalNotes.join("; ")}.`,
+    `${details.summaryLabel}: this scan saw ${signalNotes.join("; ")}.`,
     "",
-    "Best fit: USD $299 Agent Auth Focused Review for one token broker, cookie vault, site_login/site_logout flow, OAuth/HITL consent boundary, authenticated scraping path, MCP gateway auth split, or MCP SSRF/dynamic fetch boundary.",
+    `Best fit: ${details.name} for ${details.scope}.`,
     "",
-    `Focused intake: ${AGENT_AUTH_INTAKE_URL}`,
-    `Review page: ${AGENT_AUTH_REVIEW_URL}`,
+    `Focused intake: ${details.intakeUrl}`,
+    `Review page: ${details.reviewUrl}`,
+    ...(hasMcpSsrfFocus(report) && authSignal.files.length
+      ? [`Related auth path: USD $299 Agent Auth Focused Review for token, cookie, session, OAuth, and credential-boundary review. Intake: ${AGENT_AUTH_INTAKE_URL}`]
+      : []),
     `Evidence examples: ${examples}`,
     "",
   ];
@@ -380,7 +412,7 @@ function renderMarkdown(report) {
   }
   lines.push("## Paid 48-hour review", "");
   lines.push("This heuristic output is the starting point for the fixed-price Agent/MCP Audit Sprint.");
-  lines.push(...agentAuthFocusMarkdown(report));
+  lines.push(...focusedReviewMarkdown(report));
   lines.push("Price: USD $1,000 for one repo or product slice.");
   lines.push(`Full audit request: ${FULL_AUDIT_INTAKE_URL}`);
   lines.push("Terms: https://jackjin1997.github.io/agent-audit-sprint/terms.html", "");
